@@ -7,8 +7,9 @@
 ```
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 
-sudo apt install git
-sudo apt install curl
+sudo apt install git -y
+sudo apt install curl -y
+sudo apt install gh -y
 ```
 
 
@@ -47,13 +48,23 @@ Alternative reference [https://docs.oracle.com/en/learn/ol-podman-compose/#run-p
 
 - install Podman and Podman Desktop from flatpak
 ```
-sudo apt-get -y install podman,
+sudo apt-get -y install podman
+
+sudo apt install -y podman-docker
+
+-- verify podman
+systemctl --user enable --now podman.socket
+systemctl --user status podman.socket
+podman info | grep -i remotesocket -A2
+
 sudo apt install flatpak
 flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
 
+flatpak install --user flathub io.podman_desktop.PodmanDesktop
+flatpak run io.podman_desktop.PodmanDesktop
 ```
 
-- you may get a possible warning
+- you may get a possible warning.. restart machine for Podman Desktop to appear in launcpad
 
 ```
 '/var/lib/flatpak/exports/share'
@@ -65,15 +76,8 @@ session is restarted.
 
 ```
 
-- to use docker commands with podman
-```
-sudo apt install -y podman-docker
+- you may get an error docker.sock not found. ignore it because docker is not installed
 
--- verify podman
-systemctl --user enable --now podman.socket
-systemctl --user status podman.socket
-podman info | grep -i remotesocket -A2
-```
 
 
 ### GC frappe docker 
