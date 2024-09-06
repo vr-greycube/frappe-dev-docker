@@ -1,0 +1,44 @@
+services:
+  mariadb:
+    image: docker.io/mariadb:10.11.9
+    platform: linux/amd64
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  redis-cache:
+    image: docker.io/redis:alpine
+    platform: linux/amd64
+
+  redis-queue:
+    image: docker.io/redis:alpine
+    platform: linux/amd64
+
+  frappe:
+    image: docker.io/frappe/bench:latest
+    platform: linux/amd64
+    # command: sleep infinity
+    command: bash -c "cd bench-15 && bench start && cat"
+    environment:
+      - SHELL=/bin/bash
+    volumes:
+      - .:/workspace:cached
+      # Enable if you require git cloning
+      - ${HOME}/.ssh:/home/frappe/.ssh
+    working_dir: /workspace
+    ports:
+      - 8000-8003:8000-8003
+      - 9000-9003:9000-9003
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb-data:
