@@ -118,15 +118,18 @@ cd /workspace
 #### version 15
 copy installer.py into version-15
 ``` 
-$ python installer.py -j version-15/apps.json -b bench-15 -s demo15.localhost -r https://github.com/frappe/frappe -t version-15 -p 3.11.6 -n 18.18.2 -a 123 -d mariadb
+$ python installer.py -j version-15/apps.json -b bench-15 -s demo15.localhost -r https://github.com/frappe/frappe -t version-15 \
+-p 3.11.6 -n 18.18.2 -a 123 -d mariadb -m demo15
 ```
 
 #### version 14
 copy installer.py into version-14
 
 ``` 
-$ python installer.py -j version-14/apps.json -b bench-14 -s demo14.localhost -r https://github.com/frappe/frappe -t version-14 -p 3.10.13 -n 16.6.0 -a 123 -d mariadb ```
+$ python installer.py -j version-14/apps.json -b bench-14 -s demo14.localhost -r https://github.com/frappe/frappe -t version-14 \
+-p 3.10.13 -n 16.6.0 -a 123 -d mariadb -m demo14
 ```
+
 
 ### Change docker compose to start bench automatically when container starts
 - in compose.yaml file  comment the ```command: sleep infinity``` line and uncomment ```bash -c "cd bench-?? && bench start && cat"```
